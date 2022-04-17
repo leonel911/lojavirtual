@@ -26,6 +26,9 @@ public class Cliente implements Serializable {
     private List<Endereco> enderecos;
     @NotEmpty(message = ("Senha é obrigatório."))
     private String senha;
+
+    @OneToMany
+    @JoinColumn(name = "pedido_id")
     private List<Pedido> pedidos;
 
 

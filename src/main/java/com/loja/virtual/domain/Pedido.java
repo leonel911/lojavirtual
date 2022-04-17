@@ -1,8 +1,11 @@
 package com.loja.virtual.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -17,6 +20,9 @@ public class Pedido implements Serializable {
 
     private Endereco enderecoEntrega;
 
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "pedido")
     private Cliente cliente;
 
     private StatusPagamentoEnum status;
