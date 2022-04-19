@@ -29,6 +29,12 @@ public class Pedido implements Serializable {
 
     private List<ItemPedido> itens;
 
+
+    @OneToOne
+    @JoinColumn(name = "itemPedidoPk_id")
+    private ItemPedidoPk itemPedidoPk;
+
+
     public Pedido() {
     }
 

@@ -2,6 +2,7 @@ package com.loja.virtual.domain;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -20,6 +21,10 @@ public class Produto implements Serializable {
     private Categoria categoria;
 
     private List<ItemPedido> itens;
+
+    @OneToOne
+    @JoinColumn(name = "itemPedidoPk_id")
+    private ItemPedidoPk itemPedidoPk;
 
     public Produto() {
     }
