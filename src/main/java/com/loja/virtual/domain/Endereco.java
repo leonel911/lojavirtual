@@ -1,5 +1,7 @@
 package com.loja.virtual.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
@@ -18,7 +20,9 @@ public class Endereco implements Serializable {
     private String cidade;
     private Integer numero;
 
-
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "endereco")
     private Cliente cliente;
 
     private List<Pedido> pedidos;

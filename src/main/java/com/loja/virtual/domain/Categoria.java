@@ -13,6 +13,9 @@ public class Categoria implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String descricao;
+
+    @OneToMany
+    @JoinColumn(name = "produto_id")
     private List<Produto> produtos;
 
     public Categoria() {

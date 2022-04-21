@@ -23,7 +23,12 @@ public class Cliente implements Serializable {
     private Date dataNasc;
     @NotEmpty(message = ("Email é obrigatório."))
     private String email;
+
+    @OneToMany
+    @JoinColumn(name = "endereco_id")
     private List<Endereco> enderecos;
+
+
     @NotEmpty(message = ("Senha é obrigatório."))
     private String senha;
 

@@ -1,5 +1,7 @@
 package com.loja.virtual.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
@@ -18,6 +20,9 @@ public class Produto implements Serializable {
     private Integer quantEstoque;
     private Double preco;
 
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "produto")
     private Categoria categoria;
 
     private List<ItemPedido> itens;
