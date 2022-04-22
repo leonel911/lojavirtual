@@ -25,7 +25,7 @@ public class Endereco implements Serializable {
     @JoinColumn(name = "endereco")
     private Cliente cliente;
 
-    private List<Pedido> pedidos;
+  //private List<Pedido> pedidos;
 
     public Endereco() {
     }
@@ -38,7 +38,7 @@ public class Endereco implements Serializable {
         this.cidade = cidade;
         this.numero = numero;
         this.cliente = cliente;
-        this.pedidos = pedidos;
+      //this.pedidos = pedidos;
     }
 
     public Integer getId() {
@@ -97,13 +97,13 @@ public class Endereco implements Serializable {
         this.cliente = cliente;
     }
 
-    public List<Pedido> getPedidos() {
+  /*  public List<Pedido> getPedidos() {
         return pedidos;
     }
 
     public void setPedidos(List<Pedido> pedidos) {
         this.pedidos = pedidos;
-    }
+    } */
 
     @Override
     public boolean equals(Object o) {

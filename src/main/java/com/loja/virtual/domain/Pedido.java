@@ -18,16 +18,16 @@ public class Pedido implements Serializable {
     private String codigo;
     private Date instante;
 
-    private Endereco enderecoEntrega;
+ // private Endereco enderecoEntrega;
 
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "pedido")
     private Cliente cliente;
 
-    private StatusPagamentoEnum status;
+   // private StatusPagamentoEnum status;
 
-    private List<ItemPedido> itens;
+   // private List<ItemPedido> itens;
 
 
     @OneToOne
@@ -38,14 +38,14 @@ public class Pedido implements Serializable {
     public Pedido() {
     }
 
-    public Pedido(Integer id, String codigo, Date instante, Endereco enderecoEntrega, Cliente cliente, StatusPagamentoEnum status, List<ItemPedido> itens) {
+    public Pedido(Integer id, String codigo, Date instante, Endereco enderecoEntrega, Cliente cliente, /* StatusPagamentoEnum status, */ List<ItemPedido> itens) {
         this.id = id;
         this.codigo = codigo;
         this.instante = instante;
-        this.enderecoEntrega = enderecoEntrega;
+      //this.enderecoEntrega = enderecoEntrega;
         this.cliente = cliente;
-        this.status = status;
-        this.itens = itens;
+      //this.status = status;
+      //this.itens = itens;
     }
 
     public Integer getId() {
@@ -72,13 +72,13 @@ public class Pedido implements Serializable {
         this.instante = instante;
     }
 
-    public Endereco getEnderecoEntrega() {
+   /* public Endereco getEnderecoEntrega() {
         return enderecoEntrega;
     }
 
     public void setEnderecoEntrega(Endereco enderecoEntrega) {
         this.enderecoEntrega = enderecoEntrega;
-    }
+    } */
 
     public Cliente getCliente() {
         return cliente;
@@ -88,7 +88,7 @@ public class Pedido implements Serializable {
         this.cliente = cliente;
     }
 
-    public StatusPagamentoEnum getStatus() {
+  /*  public StatusPagamentoEnum getStatus() {
         return status;
     }
 
@@ -102,7 +102,7 @@ public class Pedido implements Serializable {
 
     public void setItens(List<ItemPedido> itens) {
         this.itens = itens;
-    }
+    } */
 
     @Override
     public boolean equals(Object o) {

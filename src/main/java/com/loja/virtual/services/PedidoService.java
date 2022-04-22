@@ -41,11 +41,11 @@ public class PedidoService {
             newPedido.setCodigo(pedido.getCodigo());
         }
 
-        if (pedido.getEnderecoEntrega() == null) {
+     /*   if (pedido.getEnderecoEntrega() == null) {
             pedido.setEnderecoEntrega(newPedido.getEnderecoEntrega());
         } else {
             newPedido.setEnderecoEntrega(pedido.getEnderecoEntrega());
-        }
+        } */
 
         if (pedido.getInstante() == null) {
             pedido.setInstante(newPedido.getInstante());
@@ -53,7 +53,7 @@ public class PedidoService {
             newPedido.setInstante(pedido.getInstante());
         }
 
-        if (pedido.getItens() == null) {
+      /*  if (pedido.getItens() == null) {
             pedido.setItens(newPedido.getItens());
         } else {
             newPedido.setItens(pedido.getItens());
@@ -63,7 +63,7 @@ public class PedidoService {
             pedido.setStatus(newPedido.getStatus());
         } else {
             newPedido.setStatus(pedido.getStatus());
-        }
+        } */
         return pedido;
     }
 

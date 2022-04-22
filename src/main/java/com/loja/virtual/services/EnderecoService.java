@@ -50,7 +50,7 @@ public class EnderecoService {
         if (endereco.getCliente() == null) {
             endereco.setCliente(newEndereco.getCliente());
         } else {
-            newEndereco.setCliente(endereco.getCliente()););
+            newEndereco.setCliente(endereco.getCliente());
         }
 
         if (endereco.getLogradouro() == null) {
@@ -65,12 +65,13 @@ public class EnderecoService {
             newEndereco.setNumero(endereco.getNumero());
         }
 
-        if (endereco.getPedidos() == null) {
+     /*   if (endereco.getPedidos() == null) {
             endereco.setPedidos(newEndereco.getPedidos());
         } else {
             newEndereco.setPedidos(endereco.getPedidos());
-        }
+        } */
 
+        return endereco;
     }
 
     public void delete(Integer id) {
