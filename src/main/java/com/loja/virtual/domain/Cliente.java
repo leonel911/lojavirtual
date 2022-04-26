@@ -40,6 +40,9 @@ public class Cliente implements Serializable {
     @Enumerated(EnumType.STRING)
     private Perfil perfil;
 
+    @NotEmpty(message = "CPF ou CNPJ é obrigatório!")
+    private String cpfOuCnpj;
+
 
 
     public Cliente() {
@@ -48,13 +51,14 @@ public class Cliente implements Serializable {
         }
     }
 
-    public Cliente(Integer id, String nome, Date dataNasc, String email, String senha, Perfil perfil) {
+    public Cliente(Integer id, String nome, Date dataNasc, String email, String senha, Perfil perfil, String cpfOuCnpj) {
         this.id = id;
         this.nome = nome;
         this.dataNasc = dataNasc;
         this.email = email;
         this.senha = senha;
         this.perfil = perfil;
+        this.cpfOuCnpj = cpfOuCnpj;
 
         if (getPerfil() == null) {
             setPerfil(Perfil.CLIENTE);
@@ -123,6 +127,14 @@ public class Cliente implements Serializable {
 
     public void setPerfil(Perfil perfil) {
         this.perfil = perfil;
+    }
+
+    public String getCpfOuCnpj() {
+        return cpfOuCnpj;
+    }
+
+    public void setCpfOuCnpj(String cpfOuCnpj) {
+        this.cpfOuCnpj = cpfOuCnpj;
     }
 
     @Override
