@@ -5,6 +5,8 @@ import com.loja.virtual.enums.StatusPagamentoEnum;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Entity
@@ -45,6 +47,38 @@ public class Pedido implements Serializable {
         this.enderecoEntrega = enderecoEntrega;
         this.cliente = cliente;
         setStatus(StatusPagamentoEnum.PENDENTE);
+    }
+
+    public double getValorTotal() {
+        double soma = 0.0;
+        for (ItemPedido itemPedido: itens) {
+            soma = (soma + itemPedido.getSubTotal()) - itemPedido.getDesconto();
+        }
+        return soma;
+    }
+
+    @Override
+    public String toString() {
+        NumberFormat numberFormat = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
+        StringBuffer stringBuffer = new StringBuffer();
+        stringBuffer.append("Código: ");
+        stringBuffer.append(getCodigo());
+        stringBuffer.append("\nData/Hora: ");
+        stringBuffer.append(simpleDateFormat.format(getInstante()));
+        stringBuffer.append("\nCliente: ");
+        stringBuffer.append(getCliente().getNome());
+        stringBuffer.append("\nDetalhes: \n");
+
+        for (ItemPedido itemPedido: getItens()) {
+            stringBuffer.append(itemPedido.toString());
+            stringBuffer.append("\n");
+        }
+        stringBuffer.append("Valor Total: ");
+        stringBuffer.append(numberFormat.format(getValorTotal()));
+        stringBuffer.append("\n");
+
+        return stringBuffer.toString();
     }
 
     public Integer getId() {

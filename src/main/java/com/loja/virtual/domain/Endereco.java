@@ -19,6 +19,7 @@ public class Endereco implements Serializable {
     private String bairro;
     private String cidade;
     private Integer numero;
+    private String estado;
 
     @JsonIgnore
     @ManyToOne
@@ -29,14 +30,29 @@ public class Endereco implements Serializable {
     public Endereco() {
     }
 
-    public Endereco(Integer id, String cep, String logradouro, String bairro, String cidade, Integer numero, Cliente cliente) {
+    public Endereco(Integer id, String cep, String logradouro, String bairro, String cidade, Integer numero,String estado, Cliente cliente) {
         this.id = id;
         this.cep = cep;
         this.logradouro = logradouro;
         this.bairro = bairro;
         this.cidade = cidade;
         this.numero = numero;
+        this.estado = estado;
         this.cliente = cliente;
+    }
+
+    @Override
+    public String toString() {
+        StringBuffer stringBuffer = new StringBuffer();
+        stringBuffer.append("CEP: ");
+        stringBuffer.append(getCep() + "\n");
+        stringBuffer.append(getLogradouro() + ", ");
+        stringBuffer.append(getNumero());
+        stringBuffer.append(" - Bairro: " );
+        stringBuffer.append(getBairro() + ", ");
+        stringBuffer.append(getCidade() + " - ");
+        stringBuffer.append(getEstado());
+        return stringBuffer.toString();
     }
 
     public Integer getId() {
@@ -95,6 +111,13 @@ public class Endereco implements Serializable {
         this.cliente = cliente;
     }
 
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
 
     @Override
     public boolean equals(Object o) {

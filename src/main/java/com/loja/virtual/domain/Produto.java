@@ -41,6 +41,8 @@ public class Produto implements Serializable {
         this.categoria = categoria;
     }
 
+
+
     public Integer getId() {
         return id;
     }
@@ -103,6 +105,15 @@ public class Produto implements Serializable {
 
     public void setItens(Set<ItemPedido> itens) {
         this.itens = itens;
+    }
+
+    @JsonIgnore
+    public List<Pedido> getPedidos() {
+        List<Pedido> lista = new ArrayList<>();
+        for (ItemPedido itemPedido: itens) {
+            lista.add(itemPedido.getPedido());
+        }
+        return lista;
     }
 
     @Override

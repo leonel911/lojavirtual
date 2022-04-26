@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.text.NumberFormat;
+import java.util.Locale;
 import java.util.Objects;
 
 @Entity
@@ -26,6 +28,34 @@ public class ItemPedido implements Serializable {
         this.preco = preco;
         this.quantidade = quantidade;
         this.desconto = desconto;
+    }
+
+    public double getSubTotal() {
+        return (id.getProduto().getPreco() * quantidade);
+    }
+
+    @Override
+    public String toString() {
+        NumberFormat numberFormat = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
+        StringBuffer stringBuffer = new StringBuffer();
+        stringBuffer.append("Produto: ");
+        stringBuffer.append(getProduto().getNome());
+        stringBuffer.append("\nQuantidade: ");
+        stringBuffer.append(getQuantidade());
+        stringBuffer.append("\nPreço unitário: ");
+        stringBuffer.append(numberFormat.format(getProduto().getPreco()));
+        stringBuffer.append("\n");
+
+        if (getDesconto() > 0) {
+            stringBuffer.append("Desconto por unidade: ");
+            stringBuffer.append(numberFormat.format(getDesconto()));
+        }
+        stringBuffer.append("\nSub-total: ");
+        stringBuffer.append(numberFormat.format(getSubTotal()));
+        stringBuffer.append("\n");
+
+        return stringBuffer.toString();
+
     }
 
     public ItemPedidoPk getId() {
