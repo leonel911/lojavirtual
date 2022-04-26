@@ -1,10 +1,13 @@
 package com.loja.virtual.domain;
 
+import com.loja.virtual.enums.Perfil;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -19,36 +22,43 @@ public class Cliente implements Serializable {
     @NotEmpty(message = ("O nome é obrigatório."))
     @Length(min = 5, max = 120, message = "O tamanho deve ser entre 5 e 120 caracteres.")
     private String nome;
-    @NotEmpty(message = ("Data de nascimento é obrigatório."))
     private Date dataNasc;
     @NotEmpty(message = ("Email é obrigatório."))
+    @Email
     private String email;
 
-    @OneToMany
-    @JoinColumn(name = "endereco_id")
-    private List<Endereco> enderecos;
+    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
+    private List<Endereco> enderecos = new ArrayList<>();
 
 
     @NotEmpty(message = ("Senha é obrigatório."))
     private String senha;
 
-    @OneToMany
-    @JoinColumn(name = "pedido_id")
-    private List<Pedido> pedidos;
+    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Pedido> pedidos = new ArrayList<>();
+
+    @Enumerated(EnumType.STRING)
+    private Perfil perfil;
 
 
 
     public Cliente() {
+        if (getPerfil() == null) {
+            setPerfil(Perfil.CLIENTE);
+        }
     }
 
-    public Cliente(Integer id, String nome, Date dataNasc, String email, List<Endereco> enderecos, String senha, List<Pedido> pedidos) {
+    public Cliente(Integer id, String nome, Date dataNasc, String email, String senha, Perfil perfil) {
         this.id = id;
         this.nome = nome;
         this.dataNasc = dataNasc;
         this.email = email;
-        this.enderecos = enderecos;
         this.senha = senha;
-        this.pedidos = pedidos;
+        this.perfil = perfil;
+
+        if (getPerfil() == null) {
+            setPerfil(Perfil.CLIENTE);
+        }
     }
 
     public Integer getId() {
@@ -105,6 +115,14 @@ public class Cliente implements Serializable {
 
     public void setPedidos(List<Pedido> pedidos) {
         this.pedidos = pedidos;
+    }
+
+    public Perfil getPerfil() {
+        return perfil;
+    }
+
+    public void setPerfil(Perfil perfil) {
+        this.perfil = perfil;
     }
 
     @Override

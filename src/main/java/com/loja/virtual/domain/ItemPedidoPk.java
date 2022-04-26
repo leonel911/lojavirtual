@@ -2,26 +2,50 @@ package com.loja.virtual.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
+import java.io.Serializable;
+import java.util.Objects;
 
 
-@Entity
-public class ItemPedidoPk {
+@Embeddable
+public class ItemPedidoPk implements Serializable {
 
-    @JsonIgnore
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "itemPedidoPk")
+
+
+    @ManyToOne
+    @JoinColumn(name = "pedido_id")
     private Pedido pedido;
 
-    @JsonIgnore
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "itemPedidoPk")
+    @ManyToOne
+    @JoinColumn(name = "produto_id")
     private Produto produto;
 
+    public Pedido getPedido() {
+        return pedido;
+    }
 
+    public void setPedido(Pedido pedido) {
+        this.pedido = pedido;
+    }
 
+    public Produto getProduto() {
+        return produto;
+    }
 
+    public void setProduto(Produto produto) {
+        this.produto = produto;
+    }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ItemPedidoPk that = (ItemPedidoPk) o;
+        return pedido.equals(that.pedido) && produto.equals(that.produto);
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(pedido, produto);
+    }
 }

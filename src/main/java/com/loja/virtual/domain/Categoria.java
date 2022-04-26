@@ -2,6 +2,7 @@ package com.loja.virtual.domain;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -16,15 +17,14 @@ public class Categoria implements Serializable {
 
     @OneToMany
     @JoinColumn(name = "produto_id")
-    private List<Produto> produtos;
+    private List<Produto> produtos = new ArrayList<>();
 
     public Categoria() {
     }
 
-    public Categoria(Integer id, String descricao, List<Produto> produtos) {
+    public Categoria(Integer id, String descricao) {
         this.id = id;
         this.descricao = descricao;
-        this.produtos = produtos;
     }
 
     public Integer getId() {

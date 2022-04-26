@@ -4,8 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Entity
 @Table(name = "PRODUTO")
@@ -22,19 +21,17 @@ public class Produto implements Serializable {
 
     @JsonIgnore
     @ManyToOne
-    @JoinColumn(name = "produto")
+    @JoinColumn(name = "categoria_id")
     private Categoria categoria;
 
-    private List<ItemPedido> itens;
-
-    @OneToOne
-    @JoinColumn(name = "itemPedidoPk_id")
-    private ItemPedidoPk itemPedidoPk;
+    @JsonIgnore
+    @OneToMany(mappedBy = "id.produto")
+    private Set<ItemPedido> itens = new HashSet<>();
 
     public Produto() {
     }
 
-    public Produto(Integer id, String nome, String codigoProduto, String descricao, Integer quantEstoque, Double preco, Categoria categoria, List<ItemPedido> itens) {
+    public Produto(Integer id, String nome, String codigoProduto, String descricao, Integer quantEstoque, Double preco, Categoria categoria) {
         this.id = id;
         this.nome = nome;
         this.codigoProduto = codigoProduto;
@@ -42,7 +39,6 @@ public class Produto implements Serializable {
         this.quantEstoque = quantEstoque;
         this.preco = preco;
         this.categoria = categoria;
-        this.itens = itens;
     }
 
     public Integer getId() {
@@ -101,11 +97,11 @@ public class Produto implements Serializable {
         this.categoria = categoria;
     }
 
-    public List<ItemPedido> getItens() {
+    public Set<ItemPedido> getItens() {
         return itens;
     }
 
-    public void setItens(List<ItemPedido> itens) {
+    public void setItens(Set<ItemPedido> itens) {
         this.itens = itens;
     }
 

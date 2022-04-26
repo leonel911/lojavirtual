@@ -22,15 +22,14 @@ public class Endereco implements Serializable {
 
     @JsonIgnore
     @ManyToOne
-    @JoinColumn(name = "endereco")
+    @JoinColumn(name = "cliente_id")
     private Cliente cliente;
 
-  //private List<Pedido> pedidos;
 
     public Endereco() {
     }
 
-    public Endereco(Integer id, String cep, String logradouro, String bairro, String cidade, Integer numero, Cliente cliente, List<Pedido> pedidos) {
+    public Endereco(Integer id, String cep, String logradouro, String bairro, String cidade, Integer numero, Cliente cliente) {
         this.id = id;
         this.cep = cep;
         this.logradouro = logradouro;
@@ -38,7 +37,6 @@ public class Endereco implements Serializable {
         this.cidade = cidade;
         this.numero = numero;
         this.cliente = cliente;
-      //this.pedidos = pedidos;
     }
 
     public Integer getId() {
@@ -97,13 +95,6 @@ public class Endereco implements Serializable {
         this.cliente = cliente;
     }
 
-  /*  public List<Pedido> getPedidos() {
-        return pedidos;
-    }
-
-    public void setPedidos(List<Pedido> pedidos) {
-        this.pedidos = pedidos;
-    } */
 
     @Override
     public boolean equals(Object o) {

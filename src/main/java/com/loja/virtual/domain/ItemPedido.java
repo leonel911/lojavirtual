@@ -1,18 +1,17 @@
 package com.loja.virtual.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
 public class ItemPedido implements Serializable {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private ItemPedidoPk id;
+    @JsonIgnore
+    @EmbeddedId
+    private ItemPedidoPk id = new ItemPedidoPk();
     private Double preco;
     private Integer quantidade;
     private Double desconto;
@@ -20,8 +19,10 @@ public class ItemPedido implements Serializable {
     public ItemPedido() {
     }
 
-    public ItemPedido(ItemPedidoPk id, Double preco, Integer quantidade, Double desconto) {
-        this.id = id;
+    public ItemPedido(Pedido pedido, Produto produto, Double preco, Integer quantidade, Double desconto) {
+        super();
+        id.setPedido(pedido);
+        id.setProduto(produto);
         this.preco = preco;
         this.quantidade = quantidade;
         this.desconto = desconto;
@@ -57,6 +58,23 @@ public class ItemPedido implements Serializable {
 
     public void setDesconto(Double desconto) {
         this.desconto = desconto;
+    }
+
+    @JsonIgnore
+    public Pedido getPedido() {
+        return id.getPedido();
+    }
+
+    public void setPedido(Pedido pedido) {
+        id.setPedido(pedido);
+    }
+
+    public Produto getProduto() {
+        return id.getProduto();
+    }
+
+    public void setProduto(Produto produto) {
+        id.setProduto(produto);
     }
 
     @Override

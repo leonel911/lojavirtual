@@ -1,12 +1,11 @@
 package com.loja.virtual.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.loja.virtual.enums.StatusPagamentoEnum;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Entity
 @Table(name = "PEDIDO")
@@ -16,36 +15,36 @@ public class Pedido implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String codigo;
+    @Temporal(TemporalType.DATE)
     private Date instante;
 
- // private Endereco enderecoEntrega;
+    @ManyToOne
+    @JoinColumn(name = "enderecoEntrega_id")
+    private Endereco enderecoEntrega;
 
     @JsonIgnore
     @ManyToOne
-    @JoinColumn(name = "pedido")
+    @JoinColumn(name = "cliente_id")
     private Cliente cliente;
 
-   // private StatusPagamentoEnum status;
+    @Enumerated(EnumType.STRING)
+    private StatusPagamentoEnum status;
 
-   // private List<ItemPedido> itens;
-
-
-    @OneToOne
-    @JoinColumn(name = "itemPedidoPk_id")
-    private ItemPedidoPk itemPedidoPk;
+    @OneToMany(mappedBy = "id.pedido")
+    private Set<ItemPedido> itens = new HashSet<>();
 
 
     public Pedido() {
+        setStatus(StatusPagamentoEnum.PENDENTE);
     }
 
-    public Pedido(Integer id, String codigo, Date instante, Endereco enderecoEntrega, Cliente cliente, /* StatusPagamentoEnum status, */ List<ItemPedido> itens) {
+    public Pedido(Integer id, String codigo, Date instante, Endereco enderecoEntrega, Cliente cliente, StatusPagamentoEnum status) {
         this.id = id;
         this.codigo = codigo;
         this.instante = instante;
-      //this.enderecoEntrega = enderecoEntrega;
+        this.enderecoEntrega = enderecoEntrega;
         this.cliente = cliente;
-      //this.status = status;
-      //this.itens = itens;
+        setStatus(StatusPagamentoEnum.PENDENTE);
     }
 
     public Integer getId() {
@@ -72,13 +71,13 @@ public class Pedido implements Serializable {
         this.instante = instante;
     }
 
-   /* public Endereco getEnderecoEntrega() {
+    public Endereco getEnderecoEntrega() {
         return enderecoEntrega;
     }
 
     public void setEnderecoEntrega(Endereco enderecoEntrega) {
         this.enderecoEntrega = enderecoEntrega;
-    } */
+    }
 
     public Cliente getCliente() {
         return cliente;
@@ -88,7 +87,7 @@ public class Pedido implements Serializable {
         this.cliente = cliente;
     }
 
-  /*  public StatusPagamentoEnum getStatus() {
+    public StatusPagamentoEnum getStatus() {
         return status;
     }
 
@@ -96,13 +95,13 @@ public class Pedido implements Serializable {
         this.status = status;
     }
 
-    public List<ItemPedido> getItens() {
+    public Set<ItemPedido> getItens() {
         return itens;
     }
 
-    public void setItens(List<ItemPedido> itens) {
+    public void setItens(Set<ItemPedido> itens) {
         this.itens = itens;
-    } */
+    }
 
     @Override
     public boolean equals(Object o) {
