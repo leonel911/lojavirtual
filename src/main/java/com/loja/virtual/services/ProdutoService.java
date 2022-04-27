@@ -1,7 +1,10 @@
 package com.loja.virtual.services;
 
+import com.loja.virtual.domain.Cliente;
 import com.loja.virtual.domain.Produto;
 import com.loja.virtual.repositories.ProdutoRepository;
+import com.loja.virtual.services.exceptions.AuthorizationException;
+import net.bytebuddy.utility.RandomString;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,9 +14,20 @@ import java.util.List;
 public class ProdutoService {
 
     @Autowired
-    public ProdutoRepository produtoRepository;
+    private ClienteService clienteService;
+
+    @Autowired
+    private ProdutoRepository produtoRepository;
 
     public Produto create(Produto produto) {
+        Cliente cliente = clienteService.getCliente();
+        if (cliente == null) {
+            throw new AuthorizationException("Acesso negado, verifique suas permissões");
+        }
+        String ramdomCode = produto.getNome().substring(0, 3) + RandomString.make(5);
+            produto.setCodigoProduto(ramdomCode.toUpperCase());
+
+
         return produtoRepository.save(produto);
     }
 

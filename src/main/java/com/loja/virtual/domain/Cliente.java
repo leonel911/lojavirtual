@@ -1,5 +1,6 @@
 package com.loja.virtual.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.loja.virtual.enums.Perfil;
 import org.hibernate.validator.constraints.Length;
 
@@ -7,10 +8,9 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
+import java.time.LocalDate;
+import java.time.Period;
+import java.util.*;
 
 @Entity
 @Table(name = "CLIENTE")
@@ -22,7 +22,7 @@ public class Cliente implements Serializable {
     @NotEmpty(message = ("O nome é obrigatório."))
     @Length(min = 5, max = 120, message = "O tamanho deve ser entre 5 e 120 caracteres.")
     private String nome;
-    private Date dataNasc;
+    private LocalDate dataNasc;
     @NotEmpty(message = ("Email é obrigatório."))
     @Email
     private String email;
@@ -51,7 +51,7 @@ public class Cliente implements Serializable {
         }
     }
 
-    public Cliente(Integer id, String nome, Date dataNasc, String email, String senha, Perfil perfil, String cpfOuCnpj) {
+    public Cliente(Integer id, String nome, LocalDate dataNasc, String email, String senha, Perfil perfil, String cpfOuCnpj) {
         this.id = id;
         this.nome = nome;
         this.dataNasc = dataNasc;
@@ -63,6 +63,14 @@ public class Cliente implements Serializable {
         if (getPerfil() == null) {
             setPerfil(Perfil.CLIENTE);
         }
+    }
+
+    public static int getIdade(LocalDate dataNasc) {
+        final LocalDate dataAtual = LocalDate.now();
+        final Period periodo = Period.between(dataNasc, dataAtual);
+
+        return periodo.getYears();
+
     }
 
     public Integer getId() {
@@ -81,11 +89,11 @@ public class Cliente implements Serializable {
         this.nome = nome;
     }
 
-    public Date getDataNasc() {
+    public LocalDate getDataNasc() {
         return dataNasc;
     }
 
-    public void setDataNasc(Date dataNasc) {
+    public void setDataNasc(LocalDate dataNasc) {
         this.dataNasc = dataNasc;
     }
 
@@ -149,4 +157,5 @@ public class Cliente implements Serializable {
     public int hashCode() {
         return Objects.hash(id);
     }
+
 }

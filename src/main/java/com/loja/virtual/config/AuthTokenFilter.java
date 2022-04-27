@@ -1,6 +1,8 @@
 package com.loja.virtual.config;
 
+import com.loja.virtual.domain.Cliente;
 import com.loja.virtual.domain.Usuario;
+import com.loja.virtual.repositories.ClienteRepository;
 import com.loja.virtual.repositories.UsuarioRepository;
 import com.loja.virtual.resources.exceptions.InvalidLoginException;
 import com.loja.virtual.services.TokenService;
@@ -26,11 +28,11 @@ public class AuthTokenFilter extends OncePerRequestFilter {
     private TokenService tokenService;
 
     @Autowired
-    private UsuarioRepository usuarioRepository;
+    private ClienteRepository clienteRepository;
 
-    public AuthTokenFilter(TokenService tokenService, UsuarioRepository usuarioRepository) {
+    public AuthTokenFilter(TokenService tokenService, ClienteRepository clienteRepository) {
         this.tokenService = tokenService;
-        this.usuarioRepository = usuarioRepository;
+        this.clienteRepository = clienteRepository;
     }
 
     @Override
@@ -47,7 +49,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
 
     private Integer authCliente(String token) {
         Integer userId = tokenService.getUserId(token);
-        Optional<Usuario> optionalUsuario = usuarioRepository.findById(userId);
+        Optional<Cliente> optionalUsuario = clienteRepository.findById(userId);
         if(!optionalUsuario.isPresent()){
             throw new InvalidLoginException("Usuário não encontrado!");
         }

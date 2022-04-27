@@ -2,6 +2,7 @@ package com.loja.virtual.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.loja.virtual.enums.StatusPagamentoEnum;
+import com.loja.virtual.enums.TipoPagamento;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -35,17 +36,21 @@ public class Pedido implements Serializable {
     @OneToMany(mappedBy = "id.pedido")
     private Set<ItemPedido> itens = new HashSet<>();
 
+    @Enumerated(EnumType.STRING)
+    private TipoPagamento pagamento;
+
 
     public Pedido() {
         setStatus(StatusPagamentoEnum.PENDENTE);
     }
 
-    public Pedido(Integer id, String codigo, Date instante, Endereco enderecoEntrega, Cliente cliente, StatusPagamentoEnum status) {
+    public Pedido(Integer id, String codigo, Date instante, Endereco enderecoEntrega, Cliente cliente, StatusPagamentoEnum status, TipoPagamento pagamento) {
         this.id = id;
         this.codigo = codigo;
         this.instante = instante;
         this.enderecoEntrega = enderecoEntrega;
         this.cliente = cliente;
+        this.pagamento = pagamento;
         setStatus(StatusPagamentoEnum.PENDENTE);
     }
 
@@ -54,7 +59,12 @@ public class Pedido implements Serializable {
         for (ItemPedido itemPedido: itens) {
             soma = (soma + itemPedido.getSubTotal()) - itemPedido.getDesconto();
         }
-        return soma;
+
+        if (getPagamento() != null && getPagamento().equals(TipoPagamento.PIX) || getPagamento().equals(TipoPagamento.CARTAO_DEBITO)) {
+            return (soma - (soma * 0.05));
+        } else {
+            return soma;
+        }
     }
 
     @Override
@@ -135,6 +145,14 @@ public class Pedido implements Serializable {
 
     public void setItens(Set<ItemPedido> itens) {
         this.itens = itens;
+    }
+
+    public TipoPagamento getPagamento() {
+        return pagamento;
+    }
+
+    public void setPagamento(TipoPagamento pagamento) {
+        this.pagamento = pagamento;
     }
 
     @Override

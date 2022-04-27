@@ -16,7 +16,7 @@ public class ItemPedido implements Serializable {
     private ItemPedidoPk id = new ItemPedidoPk();
     private Double preco;
     private Integer quantidade;
-    private Double desconto;
+    private Double desconto = 0.0;
 
     public ItemPedido() {
     }
@@ -46,8 +46,8 @@ public class ItemPedido implements Serializable {
         stringBuffer.append(numberFormat.format(getProduto().getPreco()));
         stringBuffer.append("\n");
 
-        if (getDesconto() > 0) {
-            stringBuffer.append("Desconto por unidade: ");
+        if (getDesconto() != null && getDesconto() > 0) {
+            stringBuffer.append("Desconto: ");
             stringBuffer.append(numberFormat.format(getDesconto()));
         }
         stringBuffer.append("\nSub-total: ");
